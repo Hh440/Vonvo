@@ -1,5 +1,13 @@
+// login route => login/route.ts
+
 
 import prisma from "@/db"
+import jwt from "jsonwebtoken"
+import { NextResponse } from "next/server";
+
+
+
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 export async function POST(req:Request) {
 
@@ -27,11 +35,30 @@ export async function POST(req:Request) {
             })
         }
 
+        const token = jwt.sign({
+            userId:user.id,role:user.role
+        },
+        JWT_SECRET,
+        {expiresIn:"20d"}
+      )
+
         console.log(user)
 
-        return new Response(JSON.stringify({message:"User found"}),{
-            status:201
+        const res = NextResponse.json({ message: "Login successful" });
+
+        res.cookies.set("token",token,{
+            httpOnly:true,
+            secure:process.env.NODE_ENV ==="production",
+            maxAge:60 * 60 * 24 * 7,
+            sameSite:"lax",
+            path:"/"
         })
+
+        console.log(res)
+
+
+        return res;
+        
 
         
 

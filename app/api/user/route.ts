@@ -1,3 +1,6 @@
+// signup route => user/route.ts
+
+
 import prisma from "@/db";
 
 

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import api from "@/utils/axiosInstance";
 
 
 export default function SignUp() {
@@ -10,6 +12,7 @@ export default function SignUp() {
     const [name,setName] =  useState("")
     const [role,setRole] = useState("")
     const [password,setPassword] = useState("")
+    const route = useRouter()
 
     const handleSignUp = async() =>{
 
@@ -18,13 +21,15 @@ export default function SignUp() {
         console.log(name)
         console.log(role)
 
-        const response = await axios.post("/api/user",{
+        const response = await api.post("/user",{
             email,
             password,
             name,
                     role
         })
         console.log(response)
+
+        route.push("/ClientSection")
     }
 
     

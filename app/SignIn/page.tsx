@@ -3,6 +3,7 @@
 import { useState } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
+import api from "@/utils/axiosInstance"
 
 export default function Login(){
     const [email,setEmail]= useState("")
@@ -12,14 +13,14 @@ export default function Login(){
 
     const handleSignIn = async()=>{
         
-        const response = await axios.post("/api/login",{
+        const response = await api.post("/login",{
             email,
             password
         })
 
         console.log(response)
 
-        router.push("/CreateClient")
+        router.push("/ClientSection")
 
 
     }
