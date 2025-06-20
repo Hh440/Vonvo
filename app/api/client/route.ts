@@ -60,3 +60,42 @@ export async function POST(req:Request){
 }
 
 
+export async function GET(){
+
+    const token = (await cookies()).get("token")?.value;
+
+    if(!token){
+        return new Response(JSON.stringify({message:"You are not logged in"}),{
+            status:500
+        })
+    }
+
+
+    try{
+        const decode :any =  jwt.verify(token,JWT_SECRET)
+        const userId = decode.userId
+
+        const client = await prisma.client.findMany({
+            where:{
+                userId
+            }
+        })
+
+        console.log(client)
+
+
+        return new Response(JSON.stringify(client),{
+            status:201
+        })
+        
+        
+    }catch(error){
+        console.error(error);
+        return new Response(JSON.stringify({message:"Error while getting the clients"}),{
+            status:500
+        })
+    }
+}    
+
+
+
