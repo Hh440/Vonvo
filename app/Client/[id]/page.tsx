@@ -6,18 +6,22 @@ import { useEffect,useState } from "react"
 
  const Client= ()=>{
 
-    const id= useParams<{id:string}>()
+    const ClientId= useParams<{id:string}>()
+
+    const id = ClientId.id
     const [client, setClient] = useState("")
 
 
     const fetchClient = async () =>{
+        console.log("hey there")
         const response= await api.get(`/client/${id}`)
         setClient(response.data)
+        
         console.log(client)
     }
 
     useEffect(()=>{
-        fetchClient
+        fetchClient()
      
 
 
@@ -27,7 +31,9 @@ import { useEffect,useState } from "react"
     return(
         <div>
 
-            {JSON.stringify(id)}
+           
+
+         <div>{id}</div>
 
             {JSON.stringify(client)}
 
