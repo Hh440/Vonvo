@@ -1,6 +1,22 @@
 import { User, Building2, Mail, Phone, Calendar, MapPin } from 'lucide-react';
 import Link from 'next/link';   
 
+
+export interface InvoiceProps{
+  id: string;
+  clientId: string;
+  userId: string;
+  issueDate: string;
+  dueDate: string;
+  status: "PAID" | "PENDING" | "OVERDUE"; // or whatever your InvoiceStatus enum is
+  totalAmount: number;
+  notes?: string;
+  pdfUrl?: string;
+  isRecurring?: boolean;
+  createdAt: string;
+};
+
+
 export interface ClientProps{
 
     id:string,
@@ -10,7 +26,7 @@ export interface ClientProps{
     phone:string,
     createdAt:Date,
     className?:string
-
+    
 }
 
 export default function ClinetCard({

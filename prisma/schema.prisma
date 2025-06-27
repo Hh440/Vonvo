@@ -47,13 +47,14 @@ model Client{
   phone    String?
   userId   String
   user     User  @relation("UserClient",fields: [userId], references: [id])
+  invoice  Invoice[]
   createdAt  DateTime  @default(now())
 }
 
 model Invoice {
   id   String   @id @default(uuid())
   clientId String 
-  client   String
+  client   Client  @relation(fields: [clientId], references: [id])
   userId   String
   user User     @relation(fields: [userId] , references: [id])
   issueDate  DateTime    @default(now())
@@ -62,6 +63,21 @@ model Invoice {
   totalAmount  Float
   notes        String?
   pdfUrl       String?
-  isRecurring   Boolean     @default(false)
+  lineItems     LineItem[]
+  isRecurring   Boolean?     @default(false)
   createdAt     DateTime   @default(now())
 }
+
+
+
+model LineItem {
+  id          String   @id @default(uuid())
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
+  description String
+  quantity    Int
+  unitPrice   Float
+  taxPercent  Float
+  discount    Float    @default(0)
+}
+

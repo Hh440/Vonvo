@@ -5,6 +5,14 @@ import api from "@/utils/axiosInstance"
 import { useParams } from "next/navigation"
 import { useEffect,useState } from "react"
 import { ClientProps } from "@/Components/ClientCard"
+import ClientInvoiceDisplay from "@/Components/ClientInvoiceDisplay"
+import { InvoiceProps } from "@/Components/ClientCard"
+
+export interface ClientInvoiceDisplayProps {
+  id: string;
+  invoice: InvoiceProps[];
+};
+
 
  const Client= ()=>{
 
@@ -12,12 +20,19 @@ import { ClientProps } from "@/Components/ClientCard"
 
     const id = ClientId.id
     const [client, setClient] = useState<ClientProps|null>(null)
+    const [clientInvoice,SetClientInvoice]= useState<ClientInvoiceDisplayProps|null>(null)
 
 
     const fetchClient = async () =>{
         console.log("hey there")
         const response= await api.get(`/client/${id}`)
+    
         setClient(response.data)
+        SetClientInvoice({
+            id:response.data.id,
+            invoice:response.data.invoice
+        })
+        
     }
 
     useEffect(()=>{
@@ -28,7 +43,7 @@ import { ClientProps } from "@/Components/ClientCard"
     },[])
 
 
-    if (!client) return <div>Loading...</div>;
+    if (!client||!clientInvoice) return <div>Loading...</div>;
 
 
     return(
@@ -40,10 +55,20 @@ import { ClientProps } from "@/Components/ClientCard"
                     email={client.email}
                     company={client.company}
                     phone={client.phone}
-                    createdAt={new Date(client.createdAt)}
-                    
+                    createdAt={new Date(client.createdAt)}     
                 />
             </div>
+
+            {/* {JSON.stringify(clientInvoice)} */}
+
+            
+            <div>
+                <ClientInvoiceDisplay
+                id={client.id}
+                invoice={clientInvoice.invoice}
+                />
+            </div>
+            
 
         </div>
 

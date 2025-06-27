@@ -1,81 +1,106 @@
-import { ClientProps } from "./ClientCard"
-import { Building2, Mail, Phone, User, FileText, Edit } from 'lucide-react';
+import { ClientProps } from "./ClientCard";
+import { Building2, Mail, Phone, FileText, Calendar } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-const ClientDisplayCard= ({
-    id,
-    name,
-    email,
-    company,
-    phone,
-    createdAt,
-    className=""
+const ClientDisplayCard = ({
+  id,
+  name,
+  email,
+  company,
+  phone,
+  createdAt,
+  className = "",
+}: ClientProps) => {
+  const router = useRouter();
 
-}:ClientProps)=>{
+  const onAddInvoice = () => {
+    router.push(`/Client/${id}/Invoice/new`);
+  };
 
+  return (
+    <div
+      className={`relative backdrop-blur-xl bg-white/70 border border-gray-200 shadow-xl rounded-3xl p-6 sm:p-8 transition-transform  ${className}`}
+    >
+      {/* Background overlay circle */}
+      <div className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-br from-blue-100 to-purple-200 rounded-full opacity-30 z-0" />
 
-    const onAddInvoice= async()=>{
-
-     alert("hello invoce call")
-    }
-    return (
-         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition-shadow duration-200">
       {/* Header */}
-      <div className="flex items-start justify-between mb-6">
+      <div className="relative z-10 flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-xl">
-            {name.split(' ').map(n => n[0]).join('').toUpperCase()}
+          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 text-white flex items-center justify-center font-bold text-xl shadow-lg ring-4 ring-white">
+            {name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+              .toUpperCase()}
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">{name}</h2>
-            <div className="flex items-center gap-2 text-gray-600">
+            <h2 className="text-2xl font-bold text-gray-900 leading-tight">
+              {name}
+            </h2>
+            <div className="flex items-center gap-2 mt-1 text-gray-500">
               <Building2 size={16} />
-              <span className="font-medium">{company}</span>
+              <span className="text-sm font-medium">{company}</span>
             </div>
           </div>
         </div>
-        
-        <button
-          //onClick={() => onEditClient(client.id)}
-          className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-colors duration-200"
-          title="Edit Client"
-        >
-          <Edit size={18} />
-        </button>
       </div>
 
-      {/* Contact Information */}
-      <div className="space-y-4 mb-8">
-        <div className="flex items-center gap-3 text-gray-700">
-          <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-            <Phone size={16} className="text-gray-600" />
+      {/* Info Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 text-sm text-gray-800">
+        <div className="flex items-start gap-3">
+          <div className="bg-blue-50 p-2 rounded-lg">
+            <Phone className="text-blue-600 w-5 h-5" />
           </div>
           <div>
-            <p className="text-sm text-gray-500 font-medium">Phone</p>
-            <p className="font-semibold">{phone}</p>
+            <p className="text-xs text-gray-500 uppercase font-semibold mb-1">
+              Phone
+            </p>
+            <p className="font-medium">{phone}</p>
           </div>
         </div>
-        
-        <div className="flex items-center gap-3 text-gray-700">
-          <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-            <Mail size={16} className="text-gray-600" />
+
+        <div className="flex items-start gap-3">
+          <div className="bg-green-50 p-2 rounded-lg">
+            <Mail className="text-green-600 w-5 h-5" />
           </div>
           <div>
-            <p className="text-sm text-gray-500 font-medium">Email</p>
-            <p className="font-semibold">{email}</p>
+            <p className="text-xs text-gray-500 uppercase font-semibold mb-1">
+              Email
+            </p>
+            <p className="font-medium break-words">{email}</p>
+          </div>
+        </div>
+
+        <div className="flex items-start gap-3">
+          <div className="bg-purple-50 p-2 rounded-lg">
+            <Calendar className="text-purple-600 w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-xs text-gray-500 uppercase font-semibold mb-1">
+              Joined On
+            </p>
+            <p className="font-medium">
+              {new Date(createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Action Button */}
       <button
-         onClick={() => onAddInvoice()}
-        className="w-90  bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+        onClick={onAddInvoice}
+        className="w-50 bg-gradient-to-r  from-blue-600 to-blue-800  text-white py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-200 transform hover:scale-90 active:scale-50 shadow-md"
       >
         <FileText size={20} />
         Create Invoice
       </button>
     </div>
-    )
-}
+  );
+};
 
-export default ClientDisplayCard
+export default ClientDisplayCard;
