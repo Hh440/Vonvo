@@ -15,7 +15,7 @@ const statusColor = {
 
 const ClientInvoiceDisplay = ({ id, invoice }: ClientInvoiceDisplayProps) => {
   return (
-    <div className="mt-10 bg-white rounded-2xl shadow-lg p-6">
+    <div className="mt-10 bg-white rounded-3xl shadow-xl p-6  ">
       <h2 className="text-2xl font-semibold mb-6 text-gray-800">Invoices</h2>
 
       {invoice.length === 0 ? (
