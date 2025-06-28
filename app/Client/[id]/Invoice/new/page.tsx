@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import api from "@/utils/axiosInstance";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 type LineItem = {
   description: string;
@@ -17,6 +17,7 @@ const InvoiceNew = () => {
      const params = useParams();
      const id = Array.isArray(params.id) ? params.id[0] : params.id;
      
+     const route= useRouter()
 
   const [dueDate, setDueDate] = useState(new Date());
   const [notes, setNote] = useState("");
@@ -80,6 +81,14 @@ const InvoiceNew = () => {
   }, {
     withCredentials: true
   });
+
+
+    if (response.status === 200 || response.status === 201) {
+      route.push(`/Client/${id}`);
+    }
+
+
+    
   };
 
   return (
