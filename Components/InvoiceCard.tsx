@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import {motion} from 'framer-motion';
 import {
   Calendar,
   DollarSign,
@@ -12,6 +13,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { InvoiceProps } from './ClientCard';
+import LineCard from './LineCard';
 
 export type InvoiceStatus = 'DRAFT' | 'SENT' | 'PAID' | 'OVERDUE' | 'CANCELLED';
 
@@ -61,6 +63,8 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoice, onStatusChange }) =>
     }
   };
 
+  const [ishovered,setIsHovered]= useState(false)
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -81,8 +85,14 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoice, onStatusChange }) =>
   const statusConfig = getStatusConfig(isOverdue ? 'OVERDUE' : normalizedStatus);
   const StatusIcon = statusConfig.icon;
 
+
   return (
-    <div className="group bg-white rounded-2xl border border-gray-200/60 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 overflow-hidden backdrop-blur-sm">
+
+    <div>
+    <motion.div
+    onHoverStart={()=>setIsHovered(true)}
+    onHoverEnd={()=>setIsHovered(false)}
+    className="group bg-white rounded-2xl border border-gray-200/60 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 overflow-hidden backdrop-blur-sm">
       <div className={`h-1 ${statusConfig.dotColor} opacity-60`}></div>
       <div className="flex items-center p-8">
         <div className="flex-1 min-w-0 pr-8">
@@ -187,6 +197,13 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoice, onStatusChange }) =>
           </div>
         </div>
       </div>
+    </motion.div>
+    <div>
+      {ishovered &&(
+
+        <LineCard id={invoice.id}/>
+      )}
+    </div>
     </div>
   );
 };

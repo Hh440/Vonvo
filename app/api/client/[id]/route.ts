@@ -9,11 +9,11 @@ import { NextRequest } from "next/server";
 
 const JWT_SECRET= process.env.JWT_SECRET!
 
-type LineItem = {
+export interface LineItem {
   description: string;
   quantity: number;
   unitPrice: number;
-  tax: number;      // becomes taxPercent in DB
+  taxPercent: number;      // becomes taxPercent in DB
   discount: number;
 }
 
@@ -101,7 +101,7 @@ export async function POST(req:Request){
                 description: item.description,
                 quantity: item.quantity,
                 unitPrice: item.unitPrice,
-                taxPercent: item.tax,
+                taxPercent: item.taxPercent,
                 discount: item.discount
             }))
             }
