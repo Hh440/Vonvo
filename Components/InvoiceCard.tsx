@@ -88,10 +88,14 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoice, onStatusChange }) =>
 
   return (
 
-    <div>
+    <motion.div
+
+    onHoverEnd={()=>setIsHovered(false)}
+    
+    >
     <motion.div
     onHoverStart={()=>setIsHovered(true)}
-    onHoverEnd={()=>setIsHovered(false)}
+    
     className="group bg-white rounded-2xl border border-gray-200/60 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 overflow-hidden backdrop-blur-sm">
       <div className={`h-1 ${statusConfig.dotColor} opacity-60`}></div>
       <div className="flex items-center p-8">
@@ -198,13 +202,19 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoice, onStatusChange }) =>
         </div>
       </div>
     </motion.div>
-    <div>
+    <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: 10 }}
+    transition={{ duration: 0.3 }}
+    
+    >
       {ishovered &&(
 
         <LineCard id={invoice.id}/>
       )}
-    </div>
-    </div>
+    </motion.div>
+    </motion.div>
   );
 };
 
